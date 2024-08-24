@@ -1,0 +1,76 @@
+body {
+    margin: 0;  
+    padding: 0;  
+    height: 100%;  
+    width: 100%;  
+    display: flex;  
+    flex-direction: column;  
+    font-family: Arial, sans-serif; 
+}
+
+.container {
+    display: flex;  
+    flex-direction: column;  
+    flex-grow: 1;  
+    width: 100%;  
+}
+
+.title {  
+    text-align: center;  
+    padding: 20px;  
+    background: #f0f0f0;  
+    border-bottom: 1px solid #ccc;  
+}  
+.content {  
+    flex-grow: 1;  
+    padding: 20px;  
+    overflow-y: auto;  
+    background: #fafafa;  
+}  
+.input-zone {  
+    display: flex;  
+    padding: 20px;  
+    background: #f0f0f0;  
+    border-top: 1px solid #ccc;  
+} 
+
+#transcript {  
+    flex-grow: 1;  
+    padding: 10px;  
+    font-size: 16px;  
+    border: 1px solid #ccc;  
+    border-radius: 5px;  
+    margin-right: 10px;  
+} 
+
+.recorder-button {
+    width: 50px;  
+    height: 50px;  
+    border-radius: 50%;  
+    background: #007BFF;  
+    color: white;  
+    border: none;  
+    cursor: pointer;  
+    display: flex;  
+    align-items: center;  
+    justify-content: center; 
+}
+
+.recording {
+	animation-name: pulse;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes pulse{
+	0%{
+		box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
+	}
+	65%{
+		box-shadow: 0px 0px 5px 13px rgba(173,0,0,.3);
+	}
+	90%{
+		box-shadow: 0px 0px 5px 13px rgba(173,0,0,0);
+	}
+}

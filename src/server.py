@@ -1,4 +1,5 @@
-from bottle import run, get, post, request
+import os
+from bottle import run, get, post, request, static_file
 from chat_agent import Chat
 from expression_agent import Expression
 
@@ -7,12 +8,16 @@ refiner = Expression()
 
 @get('/')
 def index():
-    return '<b>Hello world</b>!'
+    return static_file('site/index.html', root=os.path.dirname(os.path.abspath(__file__)))
+
+@get('/site/<filename>')
+def index(filename):
+    return static_file(f'site/{filename}', root=os.path.dirname(os.path.abspath(__file__)))
 
 @post('/chat')
 def chat():
     try:
-        message = request.json['content']
+        message = request.json['message']
     except:
         raise ValueError
     
