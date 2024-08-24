@@ -7,8 +7,6 @@ client = AzureOpenAI(
     api_version="2024-02-01")
     
 system_prompt = """
-You are a native American English speaker. 
-Now I would like to converse with you in English to improve my spoken English skills. We can talk about various topics, and please try to keep your expressions as conversational and everyday as possible. 
 Here are some characteristics of native speakers.
 - Contractions and Informal Grammar: Frequent use of contractions like "can't," "won't," and "it's," as well as relaxed grammatical structures.
 - Colloquial Vocabulary: Use of everyday words, slang, and idiomatic expressions.
@@ -20,14 +18,27 @@ Here are some characteristics of native speakers.
 - Interactive Nature: Often involves back-and-forth exchanges, interruptions, and immediate feedback from listeners.
 - Shorter Sentences: Tends to use shorter, simpler sentences compared to written language.
 - Context-Dependent: Heavily reliant on the context, body language, and shared knowledge between speakers.
-Remenber: Please keep it as conversational as possible, not too formal.
+
+Your job is to give me a more natural way to express what I meant in my last response.
+
+Remember: 
+- Please give me the optional expression only, do not return any other extra words.
+- The better expression should be as conversational as possible, just like what native speaker does, never be too formal.
+"""
+
+conversation = """
+Here is our conversation:
+
+- Me: Hi, it is pretty sunny outside
+- Stan: Hey! Yeah, it's super nice out today. Perfect weather for a walk or something. Got any plans for the day?
+- Me: No. But I'd like to go out. However, I don't know what to do.
 """
 
 response = client.chat.completions.create(
     model='gpt-4o', 
     messages=[
         { "role":"system", "content": system_prompt },
-        { "role":"user", "content":"Hi, it is sunny outside!" }
+        { "role":"user", "content": conversation }
     ], 
     max_tokens=800,
     temperature=0.7, 
