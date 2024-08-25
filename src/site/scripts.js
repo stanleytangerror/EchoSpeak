@@ -60,6 +60,8 @@ recognition.onend = async function () {
         response = await chat(transcript.value);
         document.querySelector("#history").innerHTML += '<div class="message smaller-font"><div class="message-avatar">Refine</div><div class="message-body">' + response.refine + '</div></div>'
         document.querySelector("#history").innerHTML += '<div class="message row-reverse"><div class="message-avatar echo">Echo</div><div class="message-body">' + response.reply + '</div></div>'
+    
+        speak(response.reply);
     }
 };
 
@@ -75,3 +77,28 @@ recorder.onmouseup = function () {
   recognition.stop();
   recorder.className = "recorder-button";
 };
+
+// code https://github.com/mdn/dom-examples/tree/main/web-speech-api/speak-easy-synthesis
+// sample https://mdn.github.io/dom-examples/web-speech-api/speak-easy-synthesis/
+const synth = window.speechSynthesis;
+
+var speak = function(text) {
+    if (synth.speaking) {
+        console.error("speechSynthesis.speaking");
+        return;
+    }
+
+    const utterThis = new SpeechSynthesisUtterance(text);
+
+    utterThis.onend = function (event) {
+      console.log("SpeechSynthesisUtterance.onend");
+    };
+
+    utterThis.onerror = function (event) {
+      alert("Speak failed");
+    };
+
+    utterThis.pitch = 1;
+    utterThis.rate = 1;
+    synth.speak(utterThis);
+}
