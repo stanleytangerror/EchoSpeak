@@ -42,6 +42,33 @@ body {
     flex-direction: column;
     overflow: auto;
 }  
+.smaller-font {
+    font-size: 80%;
+}
+.message {
+    display: flex;
+    margin: 1%;
+}
+.message-body {
+    padding: 1%;
+    background: #ededed;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+}
+.message-avatar {
+    background: #007BFF;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+}
+.echo {
+    background: #ffb039; 
+}
+.row-reverse {
+    flex-direction: row-reverse;
+}
 .input-zone {  
     display: flex;  
     padding: 20px;  

@@ -28,7 +28,7 @@ var chat = async function (msg) {
     const json = await response.json();
     console.log(json);
 
-    return json.reply;
+    return json;
   } catch (error) {
     console.error(error.message);
   }
@@ -54,11 +54,12 @@ recognition.onresult = function (event) {
   transcript.value = result.join(', ') + ".";
 };
 
-recognition.onend = async function () {
+recognition.onend = async function () { 
     if (transcript.value.length > 0) {
-        document.querySelector("#history").innerHTML += '<p>Me: ' + transcript.value + '</p>'
-        reply = await chat(transcript.value);
-        document.querySelector("#history").innerHTML += '<p>Echo: ' + reply + '</p>'
+        document.querySelector("#history").innerHTML += '<div class="message"><div class="message-avatar">Me</div><div class="message-body">' + transcript.value + '</div></div>'
+        response = await chat(transcript.value);
+        document.querySelector("#history").innerHTML += '<div class="message smaller-font"><div class="message-avatar">Refine</div><div class="message-body">' + response.refine + '</div></div>'
+        document.querySelector("#history").innerHTML += '<div class="message row-reverse"><div class="message-avatar echo">Echo</div><div class="message-body">' + response.reply + '</div></div>'
     }
 };
 
@@ -66,7 +67,7 @@ recognition.onerror = function (event) {
   alert("Recognize failed");
 };
 
-recorder.onmousedown = function () {
+recorder.onmousedown = function () { 
   recorder.className = "recorder-button recording";
   recognition.start();
 };
