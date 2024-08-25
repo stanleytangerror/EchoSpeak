@@ -26,4 +26,5 @@ def chat():
     refine = refiner.refine(chatter.history)
     return { 'refine': refine, 'reply': reply }
 
-run(host='localhost', port=8080)
+if __name__ == '__main__':
+    run(host='localhost', port=8080)
