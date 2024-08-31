@@ -1,6 +1,6 @@
 from common import *
 import time
-import pprint
+# import pprint
 
 class Expression:
     system_prompt = """
@@ -36,7 +36,7 @@ Remember:
         # pprint.pp(messages)
 
         response = client.chat.completions.create(
-            model='gpt-4o',
+            model=api_model,
             messages=messages,
             max_tokens=800,
             temperature=0.7,

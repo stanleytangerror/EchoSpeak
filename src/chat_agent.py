@@ -19,7 +19,7 @@ Remenber:
         self.history.append({ "role":"user", "content":message })
 
         response = client.chat.completions.create(
-            model='gpt-4o',
+            model=api_model,
             messages=self.history,
             max_tokens=800,
             temperature=0.7,
