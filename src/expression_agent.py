@@ -1,22 +1,29 @@
 from common import *
+import time
 import pprint
 
 class Expression:
     system_prompt = """
-Your job is to give me a more natural way to express what I meant in my last response.
+Your job is to give a more natural and oral way to express the conversation.
 
-Remember: 
-- Please give me the optional expression only, do not return any other extra words.
+Remember:
+- Please only refine the last expression from "user", never refine someone else's expression.
+- Please provide the optional expression only, do not return any other extra words.
 - The better expression should be as conversational as possible, just like what native speaker does, never be too formal.
 """
 
     def refine(self, conversation):
+        start_time = time.time()
+
         latest_conversation = conversation[-4:]
 
-        if not any(msg['role'] == 'user' for msg in latest_conversation):
+        while latest_conversation[-1]['role'] != 'user':
+            latest_conversation.remove(latest_conversation[-1])
+
+        if len(latest_conversation) == 0:
             raise ValueError
 
-        history = [f"- {'Me' if msg['role'] == 'user' else 'Stan'}: {msg['content']} \n" for msg in latest_conversation]
+        history = [f"- {msg['role']}: {msg['content']} \n" for msg in latest_conversation]
 
         next_prompt = "Here is our conversation:\n\n" + '\n'.join(history)
 
@@ -29,14 +36,17 @@ Remember:
         # pprint.pp(messages)
 
         response = client.chat.completions.create(
-            model='gpt-4o', 
+            model='gpt-4o',
             messages=messages,
             max_tokens=800,
-            temperature=0.7, 
+            temperature=0.7,
             top_p=0.95,
             frequency_penalty=0)
-        
+       
         reply = response.choices[0].message.content
+
+        print(f"[Profile] refine: {time.time() - start_time:.2f}")
+ 
         return reply
 
 if __name__ == '__main__':
@@ -44,7 +54,8 @@ if __name__ == '__main__':
     conversation = [
         { "role":"user", "content":'Hi, it is pretty sunny outside' },
         { "role":"assistant", "content":"Hey! Yeah, it's super nice out today. Perfect weather for a walk or something. Got any plans for the day?" },
-        { "role":"user", "content":"No. But I'd like to go out. However, I don't know what to do." }
+        { "role":"user", "content":"No. But I'd like to go out. However, I don't know what to do." },
+        { "role":"assistant", "content":"So many options! You could go for a walk or a bike ride." }
     ]
 
     print(Expression().refine(conversation))
