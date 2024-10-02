@@ -21,3 +21,9 @@ Here are some characteristics of native speakers.
 - Shorter Sentences: Tends to use shorter, simpler sentences compared to written language.
 - Context-Dependent: Heavily reliant on the context, body language, and shared knowledge between speakers.
 """
+
+if __name__ == '__main__':
+    response = client.chat.completions.create(
+        model=api_model,
+        messages=[{ "role":"user", "content":"Hi!" }])
+    print(response.choices[0].message.content)
