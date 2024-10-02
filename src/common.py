@@ -1,12 +1,21 @@
-import os
+from azure.identity import AzureCliCredential, get_bearer_token_provider
 from openai import AzureOpenAI
 
-client = AzureOpenAI(
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"),
-    api_key=os.getenv("AZURE_OPENAI_API_KEY"),  
-    api_version=os.getenv("AZURE_OPENAI_API_VERSION"))
+chat_resource_tenant_id = '7b33e762-00b4-4e51-97a0-26e09d6c78de'
+chat_resource_scope = 'https://cognitiveservices.azure.com/.default'
+chat_resource_endpoint = 'https://azureaihub6334278155.cognitiveservices.azure.com/'
+chat_resource_api_version = '2024-02-01'
 
-api_model = os.getenv("AZURE_OPENAI_MODEL")
+def create_token_provider():
+    return get_bearer_token_provider(AzureCliCredential(tenant_id=chat_resource_tenant_id), chat_resource_scope)
+
+client = AzureOpenAI(
+    azure_endpoint = chat_resource_endpoint,
+    azure_ad_token_provider = create_token_provider(),
+    api_version = chat_resource_api_version
+    )
+
+api_model = 'gpt-4o-mini'
 
 native_speaker_prompt = """
 Here are some characteristics of native speakers.
