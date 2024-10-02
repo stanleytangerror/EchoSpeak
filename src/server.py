@@ -16,7 +16,7 @@ def index(filename):
 
 @get('/ping')
 def index():
-    return 'Server running...'
+    return 'Server running...\n'
 
 @post('/chat')
 def chat():
