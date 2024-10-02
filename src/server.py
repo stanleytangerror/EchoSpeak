@@ -14,6 +14,10 @@ def index():
 def index(filename):
     return static_file(f'site/{filename}', root=os.path.dirname(os.path.abspath(__file__)))
 
+@get('/ping')
+def index():
+    return 'Server running...'
+
 @post('/chat')
 def chat():
     try:
