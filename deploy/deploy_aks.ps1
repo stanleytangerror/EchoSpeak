@@ -3,9 +3,15 @@ az login --tenant '7b33e762-00b4-4e51-97a0-26e09d6c78de'
 # https://learn.microsoft.com/en-us/training/modules/aks-deploy-container-app/3-exercise-create-aks-cluster?tabs=linux
 $RESOURCE_GROUP='rg-test-aks'
 $CLUSTER_NAME='cluster-test-aks'
+$CONTAINER_REGISTRY_NAME='acrtest123623'
 $LOCATION='westus'
 
 az group create --name=$RESOURCE_GROUP --location=$LOCATION
+az deployment group create --resource-group $RESOURCE_GROUP --template-file ./azure_resources.bicep --parameters acrName=$CONTAINER_REGISTRY_NAME
+
+
+az acr build --image sample/hello-world:v1 --registry $CONTAINER_REGISTRY_NAME --file docker_file .
+
 az aks create --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --node-count 2 --generate-ssh-keys --node-vm-size Standard_B2s --network-plugin azure
 az aks nodepool add --resource-group $RESOURCE_GROUP --cluster-name $CLUSTER_NAME --name userpool --node-count 2 --node-vm-size Standard_B2s
 
