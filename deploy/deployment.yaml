@@ -15,7 +15,7 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       containers:
-        - image: mcr.microsoft.com/mslearn/samples/contoso-website
+        - image: acrtest123623.azurecr.io/sample/hello-world:v1
           name: contoso-website
           resources:
             requests:

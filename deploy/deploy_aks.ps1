@@ -9,7 +9,7 @@ $LOCATION='westus'
 az group create --name=$RESOURCE_GROUP --location=$LOCATION
 az deployment group create --resource-group $RESOURCE_GROUP --template-file ./azure_resources.bicep --parameters acrName=$CONTAINER_REGISTRY_NAME
 
-
+Copy-Item -Path ".\src\*" -Destination ".\deploy\build" -Recurse
 az acr build --image sample/hello-world:v1 --registry $CONTAINER_REGISTRY_NAME --file docker_file .
 
 az aks create --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --node-count 2 --generate-ssh-keys --node-vm-size Standard_B2s --network-plugin azure
