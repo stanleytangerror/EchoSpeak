@@ -7,14 +7,19 @@ $CONTAINER_REGISTRY_NAME='acrtest123623'
 $LOCATION='westus'
 
 az group create --name=$RESOURCE_GROUP --location=$LOCATION
+
+# deploy acr
 az deployment group create --resource-group $RESOURCE_GROUP --template-file ./azure_resources.bicep --parameters acrName=$CONTAINER_REGISTRY_NAME
 
+# build image
 Copy-Item -Path ".\src\*" -Destination ".\deploy\build" -Recurse
 az acr build --image sample/hello-world:v1 --registry $CONTAINER_REGISTRY_NAME --file docker_file .
 
+# deploy aks
 az aks create --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --node-count 2 --generate-ssh-keys --node-vm-size Standard_B2s --network-plugin azure
 az aks nodepool add --resource-group $RESOURCE_GROUP --cluster-name $CLUSTER_NAME --name userpool --node-count 2 --node-vm-size Standard_B2s
 
+# deploy image to aks
 az aks get-credentials --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP
 kubectl get nodes
 
